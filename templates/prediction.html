@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+      body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; }
+      .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+      .gradient-text { background: linear-gradient(to right, #4ade80, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+      .result-real { border-color: #4ade80; background: rgba(74, 222, 128, 0.1); color: #4ade80; box-shadow: 0 0 30px rgba(74, 222, 128, 0.2); }
+      .result-fake { border-color: #ef4444; background: rgba(239, 68, 68, 0.1); color: #ef4444; box-shadow: 0 0 30px rgba(239, 68, 68, 0.2); }
+      .focus-glow:focus { box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.3); border-color: #4ade80; outline: none; }
+    </style>
+    <title>Scanner | TruthLens</title>
+  </head>
+  <body class="antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+    <!-- Navbar -->
+    <nav class="glass sticky top-0 z-50 w-full">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex-shrink-0 flex items-center space-x-3">
+            <a href="/" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-green-400 to-blue-500 flex items-center justify-center shadow-lg group-hover:scale-105 transition">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <span class="font-bold text-xl tracking-tight text-white group-hover:text-green-400 transition">Truth<span class="text-green-400 group-hover:text-white transition">Lens</span></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    
+    <!-- Background Elements -->
+    <div class="absolute top-[20%] left-[20%] w-[30rem] h-[30rem] bg-green-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <main class="flex-grow flex items-center justify-center z-10 p-4">
+        <div class="w-full max-w-3xl glass rounded-3xl p-8 md:p-12 shadow-2xl relative">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4 font-mono">Prediction Engine</h2>
+                <p class="text-gray-400 text-lg">Input any news headline below to run a linguistic authenticity scan.</p>
+            </div>
+            
+            <form action="/prediction" method="POST" class="space-y-6">
+                <div class="relative">
+                    <input type="text" name="news" id="newsInput" value="{{ news_text if news_text else '' }}" autocomplete="off" required placeholder="e.g. 'Federal Reserve announces historic interest rate decision...'" class="w-full bg-slate-900 border border-slate-700 text-white placeholder-gray-500 rounded-xl px-6 py-5 text-lg transition focus-glow">
+                    
+                    <!-- Interactive Dataset Button -->
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                        <div class="relative">
+                            <button type="button" onclick="document.getElementById('sampleDropdown').classList.toggle('hidden')" class="p-2.5 bg-slate-800 hover:bg-slate-700 rounded-lg border border-slate-600 text-gray-400 hover:text-green-400 transition shadow-md" title="Select Sample Data">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                            </button>
+                            
+                            <!-- Dropdown Menu -->
+                            <div id="sampleDropdown" class="hidden absolute right-0 mt-3 w-80 bg-slate-800 border border-slate-600 rounded-xl shadow-2xl z-50 text-sm overflow-hidden text-left">
+                                <div class="px-4 py-3 border-b border-slate-700 bg-slate-800/80">
+                                    <span class="font-semibold text-gray-200 uppercase tracking-wide text-xs">Test Dataset Samples</span>
+                                </div>
+                                <div class="max-h-60 overflow-y-auto">
+                                    <button type="button" onclick="fillSample('Chandrayaan-3 Success: India becomes the first country to land a spacecraft near the moon\'s south pole')" class="w-full text-left px-4 py-3 hover:bg-slate-700 text-gray-300 hover:text-white transition border-b border-slate-700/50">
+                                        <span class="text-green-400 font-bold text-xs mr-2 block mb-1">REAL (India/Space)</span>
+                                        Chandrayaan-3 Success: India becomes the first country to land...
+                                    </button>
+                                    <button type="button" onclick="fillSample('Global AI Regulation: European Union passes the world\'s first comprehensive Artificial Intelligence Act')" class="w-full text-left px-4 py-3 hover:bg-slate-700 text-gray-300 hover:text-white transition border-b border-slate-700/50">
+                                        <span class="text-green-400 font-bold text-xs mr-2 block mb-1">REAL (International/Tech)</span>
+                                        Global AI Regulation: European Union passes the world's first comprehensive...
+                                    </button>
+                                    <button type="button" onclick="fillSample('RBI Governor announces the immediate ban and withdrawal of all ₹500 currency notes from circulation')" class="w-full text-left px-4 py-3 hover:bg-slate-700 text-gray-300 hover:text-white transition border-b border-slate-700/50">
+                                        <span class="text-red-400 font-bold text-xs mr-2 block mb-1">FAKE (India/Whatsapp)</span>
+                                        RBI Governor announces the immediate ban and withdrawal of all ₹500 currency...
+                                    </button>
+                                    <button type="button" onclick="fillSample('BREAKING: Elon Musk officially buys the Walt Disney Company for $120 Billion and promises to fire the executive board')" class="w-full text-left px-4 py-3 hover:bg-slate-700 text-gray-300 hover:text-white transition border-b border-slate-700/50">
+                                        <span class="text-red-400 font-bold text-xs mr-2 block mb-1">FAKE (Global Hype)</span>
+                                        BREAKING: Elon Musk officially buys the Walt Disney Company for $120 Billion...
+                                    </button>
+                                    <button type="button" onclick="fillSample('Alien Spacecraft Discovered: James Webb Telescope captures clear images of a massive artificial megastructure')" class="w-full text-left px-4 py-3 hover:bg-slate-700 text-gray-300 hover:text-white transition border-b border-slate-700/50">
+                                        <span class="text-red-400 font-bold text-xs mr-2 block mb-1">FAKE (Clickbait)</span>
+                                        Alien Spacecraft Discovered: James Webb Telescope captures clear images...
+                                    </button>
+                                    <button type="button" onclick="fillSample('India lifts the ICC Men\'s T20 World Cup 2024 after thrilling final victory')" class="w-full text-left px-4 py-3 hover:bg-slate-700 text-gray-300 hover:text-white transition border-b border-slate-700/50">
+                                        <span class="text-green-400 font-bold text-xs mr-2 block mb-1">REAL (India/Sports)</span>
+                                        India lifts the ICC Men's T20 World Cup 2024 after thrilling...
+                                    </button>
+                                    <button type="button" onclick="fillSample('Government to ban all petrol and diesel vehicles in Delhi NCR by January next year')" class="w-full text-left px-4 py-3 hover:bg-slate-700 text-gray-300 hover:text-white transition border-b border-slate-700/50">
+                                        <span class="text-red-400 font-bold text-xs mr-2 block mb-1">FAKE (India/Policy)</span>
+                                        Government to ban all petrol and diesel vehicles in Delhi NCR...
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-green-500/30 transition-transform transform hover:-translate-y-0.5 text-lg flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                    Initialize Scan
+                </button>
+            </form>
+
+            {% if error_text %}
+            <div class="mt-8 bg-red-500/20 border border-red-500/50 rounded-xl p-4 text-center">
+                <p class="text-red-400 font-medium">{{error_text}}</p>
+            </div>
+            {% endif %}
+
+            {% if prediction_text %}
+            <div class="mt-10 
+                {% if 'REAL' in prediction_text %} result-real {% else %} result-fake {% endif %} 
+                border-2 rounded-2xl p-6 flex flex-col items-center justify-center text-center animate-fade-in-up">
+                
+                {% if 'REAL' in prediction_text %}
+                <svg class="w-16 h-16 mb-4 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h3 class="text-2xl font-bold uppercase tracking-widest mb-1">Authentic</h3>
+                {% else %}
+                <svg class="w-16 h-16 mb-4 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                <h3 class="text-2xl font-bold uppercase tracking-widest mb-1">Fabricated</h3>
+                {% endif %}
+                
+                <p class="text-lg opacity-90">{{prediction_text}}</p>
+            </div>
+
+            <!-- Hybrid Dashboard Panel -->
+            <div class="mt-8 glass rounded-2xl p-6 animate-fade-in-up border border-slate-700/50" style="animation-delay: 0.2s;">
+                <h4 class="text-xl font-semibold mb-6 text-white text-center border-b border-slate-700/50 pb-2">Hybrid Verification Dashboard</h4>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Base ML Stats -->
+                    <div class="space-y-4">
+                        <p class="text-gray-400 font-medium flex items-center gap-2">
+                            <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                            Mathematical Certainty
+                        </p>
+                        <div class="w-full bg-slate-800 rounded-full h-4 overflow-hidden border border-slate-700">
+                            <div class="bg-gradient-to-r {% if 'REAL' in prediction_class %} from-green-500 to-emerald-400 {% else %} from-red-500 to-rose-400 {% endif %} h-4 rounded-full transition-all duration-1000 ease-out" style="width: {{confidence}}%"></div>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-400">0%</span>
+                            <span class="font-bold text-white">{{confidence}}% {{prediction_class}}</span>
+                            <span class="text-gray-400">100%</span>
+                        </div>
+                        <p class="text-xs text-gray-500 italic mt-2">Calculated via Passive Aggressive Classifier Hyperplane Distance.</p>
+                    </div>
+
+                    <!-- LLM Context Analysis -->
+                    <div class="space-y-2">
+                        <p class="text-gray-400 font-medium flex items-center gap-2">
+                            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            LLM Context Analysis
+                        </p>
+                        <div class="bg-slate-800/80 border border-slate-700/50 rounded-xl p-4 min-h-[80px] flex items-center shadow-inner">
+                            <p class="text-sm text-gray-300 leading-relaxed">{{llm_analysis}}</p>
+                        </div>
+                        <p class="text-xs text-blue-400/70 italic text-right">Powered by Hugging Face Transformers</p>
+                    </div>
+                </div>
+
+                <!-- Confusion Matrix Graphic -->
+                <div class="mt-8 pt-6 border-t border-slate-700/50 flex flex-col items-center">
+                     <p class="text-sm text-gray-400 mb-4">Historical Accuracy Reference: <span class="text-green-400 font-bold">{{accuracy}}</span></p>
+                     <img src="{{ url_for('static', filename='confusion_matrix.png') }}" alt="Confusion Matrix Evaluation" class="rounded-xl shadow-lg border border-slate-700 w-full max-w-[200px] transition-transform hover:scale-105" title="Displays True/False Positives & Negatives">
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+
+    <style>
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+    
+    <!-- Footer -->
+    <footer class="mt-auto py-8 border-t border-slate-700/50 glass border-x-0 border-b-0 w-full relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-500 text-sm">
+                Designed & Developed by <span class="text-green-400 font-semibold tracking-wider">SAMARTH MOKASHI</span>
+            </p>
+        </div>
+    </footer>
+    <script>
+        function fillSample(text) {
+            document.getElementById('newsInput').value = text;
+            document.getElementById('sampleDropdown').classList.add('hidden');
+            // Give a tiny flash effect to show it was selected
+            document.getElementById('newsInput').classList.add('focus-glow');
+            setTimeout(() => document.getElementById('newsInput').classList.remove('focus-glow'), 300);
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('sampleDropdown');
+            const button = event.target.closest('button[title="Select Sample Data"]');
+            if (!button && !event.target.closest('#sampleDropdown')) {
+                if (dropdown && !dropdown.classList.contains('hidden')) {
+                    dropdown.classList.add('hidden');
+                }
+            }
+        });
+    </script>
+  </body>
+</html>

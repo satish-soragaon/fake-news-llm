@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
+    }
+
+    .glass {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .gradient-text {
+      background: linear-gradient(to right, #4ade80, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+  <title>TruthLens | Fake News Detection</title>
+</head>
+
+<body class="antialiased min-h-screen flex flex-col">
+  <!-- Navbar -->
+  <nav class="glass sticky top-0 z-50 w-full">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex-shrink-0 flex items-center space-x-3">
+          <div
+            class="w-10 h-10 rounded-full bg-gradient-to-tr from-green-400 to-blue-500 flex items-center justify-center shadow-lg">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+              </path>
+            </svg>
+          </div>
+          <span class="font-bold text-xl tracking-tight text-white">Truth<span class="text-green-400">Lens</span></span>
+        </div>
+        <div class="hidden md:block">
+          <div class="ml-10 flex items-baseline space-x-8">
+            <a href="/" class="text-white hover:text-green-400 transition font-medium">Platform</a>
+            <a href="#features" class="text-gray-300 hover:text-green-400 transition font-medium">Technology</a>
+            <a href="/prediction"
+              class="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white px-5 py-2 rounded-full font-semibold transition shadow-lg shadow-green-500/30">Get
+              Started</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <main class="flex-grow flex items-center justify-center relative overflow-hidden">
+    <!-- Background shapes -->
+    <div class="absolute top-[-10%] left-[-10%] w-[40rem] h-[40rem] bg-green-500/20 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-[40rem] h-[40rem] bg-blue-500/20 rounded-full blur-3xl"></div>
+
+    <div class="z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <div
+        class="inline-block mb-6 px-4 py-1.5 rounded-full border border-green-500/30 bg-green-500/10 text-green-400 text-sm font-semibold tracking-wide uppercase shadow-sm">
+        FAKE NEWS DETECTION SYSTEM
+      </div>
+      <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-8">
+        Uncover the truth with <br />
+        <span class="gradient-text">Machine Learning</span>
+      </h1>
+      <p class="mt-4 text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto font-light leading-relaxed mb-12">
+        Our enterprise-grade neural networks instantly analyze linguistic structures to detect disinformation,
+        clickbait, and fabricated narratives.
+      </p>
+      <div class="flex justify-center gap-6">
+        <a href="/prediction"
+          class="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white bg-green-500 rounded-full overflow-hidden shadow-2xl shadow-green-500/40 transition-transform transform hover:-translate-y-1">
+          <span
+            class="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-10"></span>
+          <span class="relative">Launch Detector</span>
+          <svg class="ml-2 w-5 h-5 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Features -->
+  <section id="features" class="py-20 relative z-10 glass border-x-0 border-b-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div class="bg-slate-800/50 p-8 rounded-2xl border border-slate-700 hover:border-green-500/50 transition">
+          <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center text-green-400 mb-6">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z">
+              </path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">Instant Analysis</h3>
+          <p class="text-gray-400">Process headlines in milliseconds. Our optimized pipeline guarantees zero-latency
+            inference for high-volume environments.</p>
+        </div>
+        <div class="bg-slate-800/50 p-8 rounded-2xl border border-slate-700 hover:border-blue-500/50 transition">
+          <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 mb-6">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+              </path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">Trained on Big Data</h3>
+          <p class="text-gray-400">Powered by tens of thousands of verified records, our models utilize deep semantic
+            vectorization to understand context.</p>
+        </div>
+        <div class="bg-slate-800/50 p-8 rounded-2xl border border-slate-700 hover:border-purple-500/50 transition">
+          <div class="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center text-purple-400 mb-6">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">High Accuracy Margin</h3>
+          <p class="text-gray-400">Enjoy leading precision statistics resulting from state-of-the-art Passive Aggressive
+            Classifiers tailored to modern NLP tasks.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Project Section -->
+  <section id="about" class="py-20 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="glass p-10 md:p-16 rounded-3xl border border-slate-700/50 shadow-2xl">
+        <h2 class="text-3xl md:text-5xl font-bold mb-8 text-white">About the Project</h2>
+        
+        <div class="space-y-8 text-gray-300 text-lg leading-relaxed">
+          <div>
+            <h3 class="text-2xl font-semibold text-green-400 mb-3">What is Fake News Detection?</h3>
+            <p>Fake news detection is the application of advanced Natural Language Processing (NLP) to mathematically analyze text and determine its authenticity. In an era of rampant digital misinformation, automated classification systems help filter out fabricated narratives, clickbait, and misleading articles before they spread.</p>
+          </div>
+          
+          <div>
+            <h3 class="text-2xl font-semibold text-blue-400 mb-3">How the Model Works</h3>
+            <p>The core intelligence of this system is powered by a multi-stage machine learning pipeline carefully trained on over 5,000 verified articles:</p>
+            <ul class="list-disc list-inside mt-4 space-y-2 ml-4">
+              <li><strong class="text-white">Explicit Preprocessing:</strong> Incoming text is strictly cleaned (punctuation removed, lowercased, and filtered for NLTK English stopwords) to isolate meaningful vocabulary.</li>
+              <li><strong class="text-white">TF-IDF Vectorization:</strong> The cleaned text is converted into a mathematical matrix using Term Frequency-Inverse Document Frequency, weighing the importance of specific words.</li>
+              <li><strong class="text-white">Classification:</strong> The vector is evaluated by a Passive Aggressive Classifier, which was selected after rigorous comparative benchmarking against Logistic Regression, Naive Bayes, and Random Forest algorithms.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+    <footer class="mt-auto py-8 border-t border-slate-700/50 glass border-x-0 border-b-0 w-full relative z-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="text-gray-500 text-sm">
+          Designed & Developed by <span class="text-green-400 font-semibold tracking-wider">SAMARTH MOKASHI</span>
+        </p>
+      </div>
+    </footer>
+</body>
+
+</html>
