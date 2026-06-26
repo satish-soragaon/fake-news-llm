@@ -1,87 +1,103 @@
-# 📰 Fake News Detection System (ML + LLM)
+# TruthLens — Fake News Detection System
 
-## 📌 Overview
-
-This project is a web-based application that classifies news headlines as **REAL or FAKE** using a combination of machine learning and natural language processing techniques.
-
-The system uses **TF-IDF** for feature extraction and a **Passive Aggressive Classifier** for efficient text classification. Additionally, a transformer-based **LLM** is used to enhance contextual understanding and improve prediction quality.
+A Machine Learning + LLM powered web application that detects whether a news headline is **Fake or Real** using NLP and a hybrid verification engine.
 
 ---
 
-## 🚀 Key Features
+## Screenshots
 
-- Real-time fake news detection  
-- Combination of ML and LLM techniques  
-- Confidence score for predictions  
-- Flask-based web application  
-- Input validation for invalid or meaningless text  
+### Home Page
+![Home Page](screenshots/home.png)
 
----
+### Prediction Engine
+![Prediction Page](screenshots/prediction_page.png)
 
-## 🧠 Tech Stack
+### REAL News Result
+![Authentic Result](screenshots/real_result.png)
 
-- Python  
-- Flask  
-- Scikit-learn  
-- TF-IDF  
-- Passive Aggressive Classifier  
-- Hugging Face Transformers  
-- HTML, CSS  
+### FAKE News Result
+![Fabricated Result](screenshots/fake_result.png)
+
+### Dataset Preview
+![Dataset](screenshots/dataset.png)
 
 ---
 
-## ⚙️ How It Works
+## Key Features
 
-1. User enters a news headline  
-2. Text is preprocessed  
-3. TF-IDF converts text into numerical format  
-4. Passive Aggressive Classifier predicts REAL or FAKE  
-5. LLM performs contextual analysis  
-6. Results are combined to generate final output  
-
----
-
-## 📂 Project Structure
-
-```
-app.py
-finalized_model.pkl
-vectorizer.pkl
-templates/
-static/
-requirements.txt
-README.md
-```
+- Real-time fake news detection using a hybrid ML + LLM engine
+- **Passive Aggressive Classifier** with TF-IDF vectorization for base prediction
+- **DistilBERT zero-shot classification** (Hugging Face Transformers) for context verification
+- Mathematical confidence scoring via sigmoid on decision function
+- Override logic: LLM can correct ML bias for ambiguous headlines
+- Clean dark-themed UI with live confidence progress bar
 
 ---
 
-## 📊 Dataset
+## Tech Stack
 
-- Source: Hugging Face (GonzaloA/fake_news)  
-- Contains labeled news articles categorized as REAL and FAKE  
-- Used for training and evaluating the machine learning model  
-
-**Note:** The dataset file is not included in this repository due to size limitations.
+| Layer | Technology |
+|---|---|
+| Language | Python |
+| Framework | Flask |
+| ML Model | Passive Aggressive Classifier (scikit-learn) |
+| NLP | TF-IDF Vectorization |
+| LLM | DistilBERT (typeform/distilbert-base-uncased-mnli) |
+| Frontend | HTML, Tailwind CSS (Jinja2 Templates) |
 
 ---
 
-## ▶️ Run the Project
+## How It Works
 
-1. Install dependencies:
+1. User enters a news headline
+2. Text is vectorized using TF-IDF
+3. ML model predicts Fake/Real with confidence score
+4. DistilBERT LLM performs zero-shot context analysis
+5. Override logic reconciles both outputs
+6. Final verdict + analysis displayed on dashboard
+
+---
+
+## Installation & Setup
+
 ```bash
+# Clone the repo
+git clone https://github.com/satish-soragaon/fake-news-llm.git
+cd fake-news-llm
+
+# Create and activate virtual environment
+python -m venv venv
+venv\Scripts\activate      # Windows
+# source venv/bin/activate  # Mac/Linux
+
+# Install dependencies
 pip install -r requirements.txt
-```
 
-2. Run the application:
-```bash
+# Run the app
 python app.py
 ```
 
-3. Open in your browser:
-http://127.0.0.1:5000/
+Open in browser: `http://127.0.0.1:5000`
+
+> Note: First startup takes ~15-30 seconds while the LLM model loads.
 
 ---
 
-## 📌 Note
+## Dataset
 
-This project demonstrates the integration of machine learning and language models for text classification.
+- Labeled dataset with **Fake / Real** news headlines
+- Columns: `title`, `text`, `label`, `label_text`, `combined_clean_text`
+- Used for training the Passive Aggressive Classifier
+
+---
+
+## Model Details
+
+- **Algorithm:** Passive Aggressive Classifier
+- **Feature Extraction:** TF-IDF Vectorizer
+- **Accuracy:** 96.4%
+- **LLM Layer:** Zero-shot classification via DistilBERT MNLI
+
+---
+
+*Designed & Developed by satish*
